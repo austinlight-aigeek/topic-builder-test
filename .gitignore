@@ -1,4 +1,4 @@
 venv/
 .python-version
 .env
-sentence_*.sql
+db/sentence_*.sql
