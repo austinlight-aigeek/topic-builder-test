@@ -13,22 +13,7 @@ from uuid import uuid4
 import psycopg
 from app.core import pwd_context
 from sqlalchemy import URL
-
-# Configure PostgreSQL connection
-POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "postgres")
-POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
-POSTGRES_PORT = os.getenv("POSTGRES_PORT", 5432)
-POSTGRES_DB = os.getenv("POSTGRES_DB", "postgres")
-
-connection_string = URL.create(
-    "postgresql",
-    POSTGRES_USER,
-    POSTGRES_PASSWORD,
-    POSTGRES_HOST,
-    int(POSTGRES_PORT),
-    POSTGRES_DB,
-).render_as_string(hide_password=False)
+from app.database import connection_string
 
 
 def main():

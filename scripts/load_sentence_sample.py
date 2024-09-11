@@ -3,6 +3,7 @@ import sys
 import os
 import glob
 from dotenv import load_dotenv
+from app.database import connection_string
 
 load_dotenv()
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -10,23 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import psycopg
 from sqlalchemy import URL
 
-# Configure PostgreSQL connection
-POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
-POSTGRES_DB = os.getenv("POSTGRES_DB", "postgres")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "postgres")
-POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
-POSTGRES_PORT = os.getenv("POSTGRES_PORT", 5432)
-
 DUMP_PATH = os.getenv("DUMP_PATH", "db")
-
-connection_string = URL.create(
-    "postgresql",
-    POSTGRES_USER,
-    POSTGRES_PASSWORD,
-    POSTGRES_HOST,
-    int(POSTGRES_PORT),
-    POSTGRES_DB,
-).render_as_string(hide_password=False)
 
 
 def find_latest_sql_dump(
@@ -48,8 +33,6 @@ def main():
         "load_sentence_sample.py",
         description="Populate sentence table in the NLP Topic Builder application",
     )
-
-    args = parser.parse_args()
 
     # Load latest SQL dump file
     sql = find_latest_sql_dump(path=DUMP_PATH)
